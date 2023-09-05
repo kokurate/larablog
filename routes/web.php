@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('author')->name('author')->group(function(){
+Route::prefix('author')->name('author.')->group(function(){
 
     Route::middleware(['guest:web'])->group(function()
     {
