@@ -6,7 +6,13 @@
         </div>
     @endif
 
-    <form wire:submit.prevent="LoginHandler()" method="get" autocomplete="off" novalidate>
+    @if(Session::get('success'))
+        <div class="alert alert-success">
+          {!! Session::get('success') !!}
+        </div>
+    @endif
+
+    <form wire:submit.prevent="LoginHandler()" method="post" autocomplete="off" novalidate>
         <div class="mb-3">
           <label class="form-label">Email or Username</label>
           <input type="text" class="form-control" placeholder="Enter email or username" autocomplete="off" wire:model="login_id">
