@@ -3,7 +3,7 @@
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-auto">
-                <span class="avatar avatar-md" style="background-image: url(/samples/avatars/023m.jpg)"></span>
+                <span class="avatar avatar-md" style="background-image: url({{ $author->picture }})"></span>
             </div>
             <div class="col-md-6">
                 <h2 class="page-title">{{ $author->name }}</h2>
@@ -28,7 +28,8 @@
                 </div>
             </div>
             <div class="col-auto d-md-flex">
-                <a href="#" class="btn btn-primary">
+                <input type="file" name="file" id="changeAuthorPictureFile" class="d-none" onchange="this.dispatchEvent(new InputEvent('input'))">
+                <a href="#" class="btn btn-primary" onclick="event.preventDefault();document.getElementById('changeAuthorPictureFile').click();">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />

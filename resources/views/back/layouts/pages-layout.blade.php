@@ -19,13 +19,18 @@
     <link href="./back/dist/css/tabler-flags.min.css?1684106062" rel="stylesheet"/>
     <link href="./back/dist/css/tabler-payments.min.css?1684106062" rel="stylesheet"/>
     <link href="./back/dist/css/tabler-vendors.min.css?1684106062" rel="stylesheet"/>
+    
     <!-- Toastr Cdn-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Ijabo Crop Tool-->
+    <link rel="stylesheet" href="{{ asset('back/dist/libs/ijaboCropTool/ijaboCropTool.min.css') }}">
+
     @stack('stylesheets')
     @livewireStyles
     <link href="./back/dist/css/demo.min.css?1684106062" rel="stylesheet"/>
 
-
+ 
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {
@@ -66,9 +71,12 @@
     <script src="./back/dist/js/tabler.min.js?1684106062" defer></script>
     <script src="./back/dist/js/demo.min.js?1684106062" defer></script>
     
-
-     <!-- Jquery-->
-     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    
+    <!-- Jquery-->
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    
+    <!-- Ijabo Crop Tool -->
+    <script src="{{ asset('back/dist/libs/ijaboCropTool/ijaboCropTool.min.js') }}"></script>
 
     <!-- Toastr  cdn -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
