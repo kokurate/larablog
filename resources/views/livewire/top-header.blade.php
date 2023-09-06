@@ -140,7 +140,18 @@
                         Menus And Categories
                       </span>
                     </a>
-                  </li>
+                </li>
+                
+                @if(auth()->user()->type == 1)
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ route('author.authors') }}" >
+                    <span class="nav-link-title">
+                      Authors
+                    </span>
+                  </a>
+                </li>
+                @endif
+              
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                   
