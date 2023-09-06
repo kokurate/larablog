@@ -32,7 +32,25 @@
               </div>
             </div>
             <div class="tab-pane fade" id="tabs-profile-8" role="tabpanel">
-              <div>Fringilla egestas nunc quis tellus diam rhoncus ultricies tristique enim at diam, sem nunc amet, pellentesque id egestas velit sed</div>
+              <div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <h3>Set blog logo</h3>
+                    <div class="mb-2" style="max-width: 200px">
+                      {{-- <img src="" alt="" class="img-thumbnail" id="logo-image-preview" data-ijabo-default-img="{{ \App\Models\Setting::find(1)->blog_logo }}"> --}}
+                      <img src="" alt="" class="img-thumbnail" id="logo-image-preview" data-ijabo-default-img="{{ \App\Models\Setting::find(1)->blog_logo }}">
+                    </div>
+                      <form action="{{ route('author.change-blog-logo') }}" method="POST" id="changeBlogLogoForm" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-2">
+                          <input type="file" name="blog_logo" class="form-control" id="logo-file-input">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change Logo</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="tab-pane fade" id="tabs-activity-8" role="tabpanel">
               <div>Donec ac vitae diam amet vel leo egestas consequat rhoncus in luctus amet, facilisi sit mauris accumsan nibh habitant senectus</div>
@@ -42,3 +60,107 @@
       </div>
 
 @endsection
+
+@push('scripts')
+  <!-- Ijabo viewer -->
+      {{-- <script>
+        $('input[name="blog_logo"]').ijaboViewer({
+            preview: '#logo-image-preview',
+            imageShape: 'rectangular',
+            allowedExtensions:['jpg','jpeg','png'],
+            onErrorShape: function(message, element){
+              alert(message);
+            }
+            onInvalidType: function(message, element){
+              alert(message);
+            }
+            onSuccess:function(message, element){
+
+            }
+        })
+      </script> --}}
+
+    <script>
+       // Function to update the image preview
+  function updateImagePreview(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#logo-image-preview').attr('src', e.target.result);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // Attach an event listener to the file input
+  $('#logo-file-input').change(function () {
+    // Get the selected file
+    var file = this.files[0];
+
+    // Check allowed extensions
+    var allowedExtensions = ['jpg', 'jpeg', 'png','svg'];
+    var fileExtension = file.name.split('.').pop().toLowerCase();
+    var isAllowedExtension = allowedExtensions.indexOf(fileExtension) !== -1;
+
+    if (!isAllowedExtension) {
+      alert('Allowed image extensions: jpg, jpeg, png, svg.');
+      // Clear the file input to prevent submission
+      $('#logo-file-input').val('');
+    } else {
+      // Load the image and update the image preview
+      updateImagePreview(this);
+
+      // Check image shape (assuming you have specific dimensions for rectangular images)
+      var image = new Image();
+      image.src = window.URL.createObjectURL(file);
+      image.onload = function () {
+        var width = this.width;
+        var height = this.height;
+
+        // Define your rectangular shape criteria here
+        var isRectangular = width > height;
+
+        if (!isRectangular) {
+          alert('Image shape should be rectangular.');
+          // Clear the file input to prevent submission
+          $('#logo-file-input').val('');
+        }
+      };
+    }
+  });
+
+  // Handle form submission with AJAX
+  $('#changeBlogLogoForm').submit(function (e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    var formData = new FormData(this);
+
+    $.ajax({
+      type: 'POST',
+      url: $(this).attr('action'),
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        // Handle the success response from the backend
+        toastr.remove();
+        if (data.status == 1) {
+          toastr.success(data.msg);
+          $('#changeBlogLogoForm')[0].reset();
+          Livewire.emit('updateTopHeader');
+        } else {
+          toastr.error(data.msg);
+        }
+      },
+      error: function (error) {
+        // Handle the error response from the backend
+        console.error('Image upload failed:', error);
+      },
+    });
+  });
+
+    </script>
+
+@endpush
