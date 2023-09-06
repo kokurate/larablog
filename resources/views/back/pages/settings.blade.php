@@ -38,7 +38,7 @@
                     <h3>Set blog logo</h3>
                     <div class="mb-2" style="max-width: 200px">
                       {{-- <img src="" alt="" class="img-thumbnail" id="logo-image-preview" data-ijabo-default-img="{{ \App\Models\Setting::find(1)->blog_logo }}"> --}}
-                      <img src="" alt="" class="img-thumbnail" id="logo-image-preview" data-ijabo-default-img="{{ \App\Models\Setting::find(1)->blog_logo }}">
+                      <img src="" alt="" class="img-thumbnail" id="logo-image-preview">
                     </div>
                       <form action="{{ route('author.change-blog-logo') }}" method="POST" id="changeBlogLogoForm" enctype="multipart/form-data">
                         @csrf
@@ -46,6 +46,19 @@
                           <input type="file" name="blog_logo" class="form-control" id="logo-file-input">
                         </div>
                         <button type="submit" class="btn btn-primary">Change Logo</button>
+                      </form>
+                    </div>
+                    <div class="col-md-6">
+                      <h3>Set blog favicon</h3>
+                      <div class="mb-2" style="max-width: 50px">
+                        <img src="" alt="" class="img-thumbnail" id="favicon-image-preview">
+                      </div>
+                      <form action="{{ route('author.change-blog-favicon') }}" method="POST" id="changeBlogFaviconForm" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-2">
+                          <input type="file" name="blog_favicon" class="form-control" id="favicon-file-input">
+                        </div>
+                        <button class="btn btn-primary">Change favicon</button>
                       </form>
                     </div>
                   </div>
@@ -160,6 +173,71 @@
       },
     });
   });
+
+    </script>
+
+
+    <!-- Fav Icon  -->
+    <!-- Preview -->
+    <script>
+          $(document).ready(function () {
+          // Function to update the favicon image preview
+          function updateFaviconPreview(input) {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+
+              reader.onload = function (e) {
+                $('#favicon-image-preview').attr('src', e.target.result);
+              };
+
+              reader.readAsDataURL(input.files[0]);
+            }
+          }
+
+          // Attach an event listener to the favicon file input
+          $('#favicon-file-input').change(function () {
+            // Update the favicon image preview when a file is selected
+            updateFaviconPreview(this);
+          });
+        });
+
+    // Handle the json
+     // Handle form submission with AJAX
+    $('#changeBlogFaviconForm').submit(function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      var formData = new FormData(this);
+
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+          // Handle the success response from the backend
+          toastr.remove();
+          if (data.status == 1) {
+            toastr.success(data.msg);
+            // $('#changeBlogFaviconForm')[0].reset();
+
+            // Add a delay of 2 seconds before redirecting
+            setTimeout(function () {
+              // Redirect back to the previous page
+              var currentURL = window.location.href;
+              window.location.href = currentURL;
+            }, 2000);
+            
+          } else {
+            toastr.error(data.msg);
+          }
+        },
+        error: function (error) {
+          // Handle the error response from the backend
+          console.error('Image upload failed:', error);
+        },
+      });
+    });
 
     </script>
 
