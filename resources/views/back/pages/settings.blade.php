@@ -4,7 +4,7 @@
 
     <div class="row align-items-center">
         <div class="col">
-            <h2 class="page-title">
+            <h2 class="page-title mb-3">
                 Settings
             </h2>
         </div>
@@ -66,7 +66,9 @@
               </div>
             </div>
             <div class="tab-pane fade" id="tabs-activity-8" role="tabpanel">
-              <div>Donec ac vitae diam amet vel leo egestas consequat rhoncus in luctus amet, facilisi sit mauris accumsan nibh habitant senectus</div>
+              <div>
+              @livewire('author-blog-social-media-form')
+              </div>
             </div>
           </div>
         </div>
@@ -113,12 +115,12 @@
     var file = this.files[0];
 
     // Check allowed extensions
-    var allowedExtensions = ['jpg', 'jpeg', 'png','svg'];
+    var allowedExtensions = ['jpg', 'jpeg', 'png'];
     var fileExtension = file.name.split('.').pop().toLowerCase();
     var isAllowedExtension = allowedExtensions.indexOf(fileExtension) !== -1;
 
     if (!isAllowedExtension) {
-      alert('Allowed image extensions: jpg, jpeg, png, svg.');
+      alert('Allowed image extensions: jpg, jpeg, png.');
       // Clear the file input to prevent submission
       $('#logo-file-input').val('');
     } else {
@@ -132,7 +134,7 @@
         var width = this.width;
         var height = this.height;
 
-        // Define your rectangular shape criteria here
+        // Define rectangular shape criteria
         var isRectangular = width > height;
 
         if (!isRectangular) {
