@@ -35,7 +35,7 @@ class AuthorPersonalDetails extends Component
         $this->emit('updateAuthorProfileHeader');
         $this->emit('updateTopHeader');
 
-        $this->dispatchBrowserEvent('info', ['message' => 'Your Profile info have been successfully updated.']);
+        $this->dispatchBrowserEvent('success', ['message' => 'Your Profile info have been successfully updated.']);
     }
 
     public function render()
