@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Nette\Utils\Random;
 use Illuminate\Support\Facades\Mail;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\File;
 
 class Authors extends Component
 {
@@ -19,7 +20,8 @@ class Authors extends Component
     public $blocked = 0;
 
     protected $listeners = [
-        'resetForms'
+        'resetForms',
+        'deleteAuthorAction'
     ];
 
     public function mount(){
@@ -131,6 +133,34 @@ class Authors extends Component
         
         $this->dispatchBrowserEvent('success', ['message' => 'Author details have been successfully updated']);
         $this->dispatchBrowserEvent('hide_edit_author_modal');
+
+    }
+
+    public function deleteAuthor($author){
+        // dd(['Delete author', $author]);
+        $this->dispatchBrowserEvent('deleteAuthor',[
+            'title' => 'Are you sure?',
+            'html' => 'You want to delete this author: <br><b>'.$author['name'].'<b>',
+            'id' => $author['id'],
+        ]);
+    }
+
+    public function deleteAuthorAction($id){
+        // dd('yes delete');
+
+        $author = User::find($id);
+        $path = 'back/dist/img/authors/';
+        $author_picture = $author->getAttributes()['picture'];
+        $picture_full_path = $path.$author_picture;
+
+        if($author_picture != null || File::exists(public_path($picture_full_path))){
+            File::delete(public_path($picture_full_path));
+        }
+
+        $author->delete();
+        $this->dispatchBrowserEvent('success', ['Author has been successfull deleted']);
+
+
 
     }
 

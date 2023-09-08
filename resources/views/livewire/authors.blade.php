@@ -43,7 +43,7 @@
             </div>
             <div class="d-flex">
               <a href="#" wire:click.prevent='editAuthor({{ $author }})' class="card-btn">Edit</a>
-              <a href="#" class="card-btn">Delete</a>
+              <a href="#" wire:click.prevent='deleteAuthor({{ $author }})' class="card-btn">Delete</a>
             </div>
           </div>
         </div>

@@ -34,6 +34,49 @@
         $('#edit_author_modal').modal('hide');
     });
 
+    // Old using ijabo
+    // window.addEventListener('deleteAuthor', function(event){
+    //     swal.fire({
+    //         title:event.detail.title,
+    //         imageWidth:48,
+    //         imageHeight:48,
+    //         html:event.detail.html,
+    //         showCloseButton:true,
+    //         showCancelButton:true,
+    //         cancelButtonText:'Cancel',
+    //         confirmButtonText:'Yes, delete',
+    //         cancelButtonColor:#d33,
+    //         confirmButtonColor:'#3085d6',
+    //         width:300,
+    //         allowOutsideClick:false,
+    //     }).then(function(result){
+    //         if(result.value){
+    //             Livewire.emit('deleteAuthorAction', event.detail.id)
+    //         }
+    //     });
+    // });
+
+    window.addEventListener('deleteAuthor', function(event) {
+    Swal.fire({
+        title: event.detail.title,
+        html: event.detail.html,
+        icon: 'warning', // Use a warning icon
+        showCloseButton: true,
+        showCancelButton: true,
+        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes, delete',
+        cancelButtonColor: '#d33',
+        confirmButtonColor: '#3085d6',
+        width: '400px',
+        allowOutsideClick: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Livewire.emit('deleteAuthorAction', event.detail.id);
+        }
+    });
+});
+
+
     </script>
 
 @endpush
