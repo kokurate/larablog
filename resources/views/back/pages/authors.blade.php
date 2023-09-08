@@ -26,6 +26,14 @@
         });
     });
 
+    window.addEventListener('showEditAuthorModal', function(event){
+        $('#edit_author_modal').modal('show');
+    });
+
+    window.addEventListener('hide_edit_author_modal', function(event){
+        $('#edit_author_modal').modal('hide');
+    });
+
     </script>
 
 @endpush
