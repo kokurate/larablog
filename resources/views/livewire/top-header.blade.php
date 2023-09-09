@@ -165,7 +165,7 @@
                         <a class="dropdown-item" href="{{ route('author.posts.add-post') }}">
                           Add New
                         </a>
-                        <a class="dropdown-item" href="./back/blank.html">
+                        <a class="dropdown-item" href="{{ route('author.posts.all_posts') }}">
                           All Posts
                         </a>
                       </div>
