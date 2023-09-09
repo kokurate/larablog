@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Support\Str;
+use App\Models\Post;
 
 class Categories extends Component
 {
@@ -19,7 +20,8 @@ class Categories extends Component
     public $updateSubCategoryMode = false;
 
     protected $listeners = [
-        'resetModalForm'
+        'resetModalForm',
+        'deleteCategoryAction',
     ];
 
     public function resetModalForm(){
@@ -131,6 +133,33 @@ class Categories extends Component
             }else{
                 $this->dispatchBrowserEvent('error',['message' => 'Something went wrong']);
             }
+        }
+    }
+
+    public function deleteCategory($id){
+        $category = Category::find($id);
+        $this->dispatchBrowserEvent('deleteCategory',[
+            'title' => 'Are You Sure?',
+            'html' => 'You want to delete <b>'.$category->category_name.'</b> category',
+            'id' => $id
+        ]);
+    }
+
+    public function deleteCategoryAction($id){
+        $category = Category::where('id', $id)->first();
+        $subcategories = SubCategory::where('parent_category', $category->id)->whereHas('posts')->with('posts')->get();
+
+        if(!empty($subcategories) && count($subcategories) > 0){
+            $totalPosts = 0;
+            foreach($subcategories as $subcat){
+                $totalPosts += Post::where('category_id', $subcat->id)->get()->count();
+            }
+            $this->dispatchBrowserEvent('error',['message' => 'This category has ('.$totalPosts.') posts related to it, cannot be deleted.']);
+        }else{
+            SubCategory::where('parent_category', $category->id)->delete();
+            $category->delete();
+            $this->dispatchBrowserEvent('info',['message' => 'Category has been successfully deleted.']);
+
         }
     }
 
