@@ -1,5 +1,44 @@
 <div>
     
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="" class="form-label">Search</label>
+            <input type="text" name="" id="" class="form-control" placeholder="Keywords..." wire:model='search'> 
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="" class="form-label">Category</label>
+            <select name="" id="" class="form-select" wire:model='category'>
+                <option value="">--- No Selected ---</option>
+                @foreach (\App\Models\SubCategory::whereHas('posts')->get() as $category)
+                    <option value="{{ $category->id }}">{{ $category->subcategory_name }}</option>
+                @endforeach
+
+            
+            </select>
+        </div>
+
+        @if(auth()->user()->type == 1 )
+     
+        <div class="col-md-2 mb-3">
+            <label for="" class="form-label">Author</label>
+            <select name="" id="" class="form-select" wire:model='author'>
+                <option value="">--- No Selected ---</option>
+                @foreach(\App\Models\User::whereHas('posts')->get() as $author)
+                    <option value="{{ $author->id }}">{{ $author->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        @endif
+
+        <div class="col-md-2 mb-3">
+            <label for="" class="form-label">SortBy</label>
+            <select name="" id="" class="form-select" wire:model='orderBy'>
+                <option value="asc">ASC</option>
+                <option value="desc">DESC</option>
+            </select>
+        </div>
+    </div>
+
     <div class="row row-cards">
         @forelse ($posts as $post)
             <div class="col-md-6 col-lg-3">
