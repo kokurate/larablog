@@ -48,7 +48,7 @@
                         <h3 class="m-0 mb-1">{{ $post->post_title }}</h3>
                     </div>
                     <div class="d-flex">
-                        <a href="" class="card-btn">Edit</a>
+                        <a href="{{ route('author.posts.edit-post',['post_id' => $post->id]) }}" class="card-btn">Edit</a>
                         <a href="" class="card-btn">Delete</a>
                     </div>
                 </div>
