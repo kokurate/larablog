@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+
 
 class AuthorController extends Controller
 {
@@ -140,6 +142,22 @@ class AuthorController extends Controller
             $new_filename = time().'_'.$filename;
 
             $upload = Storage::disk('public')->put($path.$new_filename, (string) file_get_contents($file));
+
+            $post_thumbnail_path = $path.'thumbnails';
+            if(!Storage::disk('public')->exists($post_thumbnail_path)){
+                Storage::disk('public')->makeDirectory($post_thumbnail_path, 0755, true, true);
+            }
+
+
+            // create square thumbnail
+            Image::make(storage_path('app/public/'.$path.$new_filename))
+                  ->fit(200,200)
+                  ->save(storage_path('app/public/'.$path.'thumbnails/'.'thumb_'.$new_filename));
+
+            // create resized image
+            Image::make(storage_path('app/public/'.$path.$new_filename))
+                 ->fit(500,350)
+                 ->save(storage_path('app/public/'.$path.'thumbnails/'.'resized_'.$new_filename));
 
             if($upload){
                 $post = new Post();
