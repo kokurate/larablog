@@ -62,6 +62,27 @@
             });
         });
 
+
+        window.addEventListener('deleteSubCategory', function(event) {
+            Swal.fire({
+                title: event.detail.title,
+                html: event.detail.html,
+                icon: 'warning', // Use a warning icon
+                showCloseButton: true,
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Yes, delete',
+                cancelButtonColor: '#d33',
+                confirmButtonColor: '#3085d6',
+                width: '400px',
+                allowOutsideClick: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.emit('deleteSubCategoryAction', event.detail.id);
+                }
+            });
+        });
+
     </script>
 
 @endpush

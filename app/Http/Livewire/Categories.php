@@ -22,6 +22,7 @@ class Categories extends Component
     protected $listeners = [
         'resetModalForm',
         'deleteCategoryAction',
+        'deleteSubCategoryAction',
     ];
 
     public function resetModalForm(){
@@ -159,6 +160,30 @@ class Categories extends Component
             SubCategory::where('parent_category', $category->id)->delete();
             $category->delete();
             $this->dispatchBrowserEvent('info',['message' => 'Category has been successfully deleted.']);
+
+        }
+    }
+
+    public function deleteSubCategory($id){
+        $subcategory = SubCategory::find($id);
+        $this->dispatchBrowserEvent('deleteSubCategory',[
+            'title' => 'Are You Sure ?',
+            'html' => 'You want to delete <b>'.$subcategory->subcategory_name.'</b> subcategory',
+            'id' => $id
+        ]);
+    }
+
+    public function deleteSubCategoryAction($id){
+        // dd('yes delete now');
+        $subcategory = SubCategory::where('id',$id)->first();
+        $posts = Post::where('category_id', $subcategory->id)->get()->toArray();
+
+        if(!empty($posts) && count($posts) > 0){
+            $this->dispatchBrowserEvent('error',['message' => 'This subcategory has ('.count($posts).') posts related to it, cannot be deleted.']);
+
+        }else{
+            $subcategory->delete();
+            $this->dispatchBrowserEvent('info',['message' => 'Subategory has been successfully deleted.']);
 
         }
     }
