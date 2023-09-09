@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\File;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Validator;
 
+use App\Models\Post;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 class AuthorController extends Controller
 {
     public function index(Request $request)
@@ -82,41 +86,84 @@ class AuthorController extends Controller
     }
 
     public function changeBlogFavicon(Request $request)
-{
-    $settings = Setting::find(1);
-    $favicon_path = 'back/dist/img/logo-favicon';
-    $old_favicon = $settings->getAttributes()['blog_favicon'];
-    $file = $request->file('blog_favicon');
+    {
+        $settings = Setting::find(1);
+        $favicon_path = 'back/dist/img/logo-favicon';
+        $old_favicon = $settings->getAttributes()['blog_favicon'];
+        $file = $request->file('blog_favicon');
 
-    // Define the validation rules
-    $rules = [
-        'blog_favicon' => 'required|image|mimes:jpg,jpeg,png|max:1024|dimensions:ratio=1/1',
-    ];
+        // Define the validation rules
+        $rules = [
+            'blog_favicon' => 'required|image|mimes:jpg,jpeg,png|max:1024|dimensions:ratio=1/1',
+        ];
 
-    // Validate the uploaded file
-    $validator = Validator::make($request->all(), $rules);
+        // Validate the uploaded file
+        $validator = Validator::make($request->all(), $rules);
 
-    if ($validator->fails()) {
-        // Validation failed, return the error response
-        return response()->json(['status' => 0, 'msg' => $validator->errors()->first()]);
+        if ($validator->fails()) {
+            // Validation failed, return the error response
+            return response()->json(['status' => 0, 'msg' => $validator->errors()->first()]);
+        }
+
+        if ($old_favicon != null && File::exists(public_path($favicon_path . '/' . $old_favicon))) {
+            File::delete(public_path($favicon_path . '/' . $old_favicon));
+        }
+
+        $filename = time() . '_' . rand(1, 100000) . '_larablog_favicon.ico';
+
+        $upload = $file->move(public_path($favicon_path), $filename);
+        if ($upload) {
+            $settings->update([
+                'blog_favicon' => $filename
+            ]);
+            return response()->json(['status' => 1, 'msg' => 'Blog favicon has been successfully updated.']);
+        } else {
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
+        }
     }
 
-    if ($old_favicon != null && File::exists(public_path($favicon_path . '/' . $old_favicon))) {
-        File::delete(public_path($favicon_path . '/' . $old_favicon));
-    }
-
-    $filename = time() . '_' . rand(1, 100000) . '_larablog_favicon.ico';
-
-    $upload = $file->move(public_path($favicon_path), $filename);
-    if ($upload) {
-        $settings->update([
-            'blog_favicon' => $filename
+    
+    public function createPost(Request $request)
+    {
+        $request->validate([
+            'post_title' => 'required|unique:posts,post_title',
+            // 'post_title' => 'required',
+            'post_content' => 'required',
+            'post_category' => 'required|exists:sub_categories,id',
+            'featured_image' => 'required|mimes:jpeg,jpg,png|max:1024',
         ]);
-        return response()->json(['status' => 1, 'msg' => 'Blog favicon has been successfully updated.']);
-    } else {
-        return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
+
+        if($request->hasFile('featured_image')){
+            $path = "images/post_images/";
+            $file = $request->file('featured_image');
+            $filename = $file->getClientOriginalName();
+            $new_filename = time().'_'.$filename;
+
+            $upload = Storage::disk('public')->put($path.$new_filename, (string) file_get_contents($file));
+
+            if($upload){
+                $post = new Post();
+                $post->author_id = auth()->id();
+                $post->category_id = $request->post_category;
+                $post->post_title = $request->post_title;
+                // $post->post_slug = Str::slug($request->post_title);
+                $post->post_content = $request->post_content;
+                $post->featured_image = $new_filename;
+                $saved = $post->save();
+
+                if($saved){
+                    return response()->json(['code' => 1 , 'msg' => 'New post has been successfully created']);
+                }else{
+                    return response()->json(['code' => 3 , 'msg' => 'Something went wrong ins saving post data']);
+                }
+
+            }else{
+                return response()->json(['code' => 3 , 'msg' => 'Something went wrong for uploading featured image']);
+            }
+
+
+        }
     }
-}
 
 
 }
