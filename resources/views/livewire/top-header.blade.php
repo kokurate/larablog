@@ -135,9 +135,9 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./back/form-elements.html" >
+                    <a class="nav-link" href="{{ route('author.categories') }}" >
                       <span class="nav-link-title">
-                        Menus And Categories
+                        Categories
                       </span>
                     </a>
                 </li>

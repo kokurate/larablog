@@ -158,7 +158,7 @@ class Authors extends Component
         }
 
         $author->delete();
-        $this->dispatchBrowserEvent('success', ['Author has been successfull deleted']);
+        $this->dispatchBrowserEvent('success', ['message' => 'Author has been successfull deleted']);
 
 
 
