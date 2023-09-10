@@ -25,13 +25,13 @@
               </a>
               <div class="dropdown-menu"> 
                 @foreach(\App\Models\SubCategory::where('parent_category', $category->id)->whereHas('posts')->get() as $subcategory)
-                  <a class="dropdown-item" href="travel.html">{{ $subcategory->subcategory_name }}</a>
+                  <a class="dropdown-item" href="{{ route('category_posts', $subcategory->slug) }}">{{ $subcategory->subcategory_name }}</a>
                 @endforeach
               </div>
             </li>
             @endforeach
             @foreach(\App\Models\SubCategory::where('parent_category', 0)->whereHas('posts')->get() as $subcategory)
-            <li class="nav-item"> <a class="nav-link" href="contact.html">{{ $subcategory->subcategory_name }}</a>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('category_posts', $subcategory->slug) }}">{{ $subcategory->subcategory_name }}</a>
             </li>
             @endforeach
             <li class="nav-item"> <a class="nav-link" href="contact.html">Contact</a>
