@@ -20,6 +20,9 @@
     <link href="/back/dist/css/tabler-flags.min.css?1684106062" rel="stylesheet"/>
     <link href="/back/dist/css/tabler-payments.min.css?1684106062" rel="stylesheet"/>
     <link href="/back/dist/css/tabler-vendors.min.css?1684106062" rel="stylesheet"/>
+
+    <!-- Amsify for tags-->
+    <link rel="stylesheet" href="/amsify/amsify.suggestags.css">
     
     <!-- Toastr Cdn-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -80,6 +83,10 @@
     <!-- Jquery-->
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     
+    
+    <!-- Amsify for tags-->
+    <script src="/amsify/jquery.amsify.suggestags.js"></script>
+
     <!-- Ijabo Crop Tool -->
     {{-- <script src="{{ asset('back/dist/libs/ijaboCropTool/ijaboCropTool.min.js') }}"></script> --}}
     <script src="/back/dist/libs/ijaboCropTool/ijaboCropTool.min.js"></script>
@@ -90,6 +97,13 @@
     <!-- Sweet alert 2-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
     
+    <!-- Amsify for tasgs-->
+    <script>
+      
+      $('input[name="post_tags"]').amsifySuggestags();
+
+    </script>
+
     <!-- Toastr script for livewire-->
     <script>
       $(document).ready(function(){

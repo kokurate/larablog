@@ -53,6 +53,10 @@
                     <div class="image_holder mb-2" style="max-width: 250px">
                         <img src="{{ $post->featured_image ? asset('storage/images/post_images/' . $post->featured_image) : '' }}" alt="" class="img-thumbnail" id="image-previewer" data-ijabo-default-img='/storage/images/post_images/{{ $post->featured_image }}'>
                     </div>
+                    <div class="mb-3">
+                        <lavel class="form-label">Post Tags</lavel>
+                        <input type="text" class="form-control" name="post_tags" value="{{ $post->post_tags }}">
+                    </div>
                     <button type="submit" class="btn btn-primary">Update post</button>
                 </div>
             </div>
