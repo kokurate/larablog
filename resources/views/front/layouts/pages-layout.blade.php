@@ -25,6 +25,8 @@
 	<!-- # CSS Plugins -->
 	<link rel="stylesheet" href="/front/plugins/bootstrap/bootstrap.min.css">
 
+	@stack('stylesheets')
+
 	<!-- # Main Style Sheet -->
 	<link rel="stylesheet" href="/front/css/style.css">
 </head>
@@ -46,7 +48,7 @@
 <!-- # JS Plugins -->
 <script src="/front/plugins/jquery/jquery.min.js"></script>
 <script src="/front/plugins/bootstrap/bootstrap.min.js"></script>
-
+@stack('scripts')
 <!-- Main Script -->
 <script src="/front/js/script.js"></script>
 
