@@ -122,4 +122,17 @@ if(!function_exists('latest_sidebar_posts')){
     }
 }
 
+
+/** 
+ *  ALL Tags
+ */
+if(!function_exists('all_tags')){
+    function all_tags(){
+        return Post::where('post_tags','!=', null)->distinct()->pluck('post_tags')->join(',');
+        
+    }
+}
+
+
+
 ?>

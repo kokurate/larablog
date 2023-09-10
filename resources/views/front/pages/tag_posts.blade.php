@@ -4,7 +4,7 @@
 
 <div class="row">
   <div class="col-12">
-      <h1 class="mb-4 border-bottom border-primary d-inline-block">{{ $category->subcategory_name }}</h1>
+      <h1 class="mb-4 border-bottom border-primary d-inline-block">{{ $pageTitle }}</h1>
   </div>
 </div>
 
@@ -89,8 +89,8 @@
                   </div>
               </div>
               @endif
-
-              @if(all_tags() != null)
+              
+                @if(all_tags() != null)
                     @php
                         $allTagsString = all_tags();
                         $allTagsArray = explode(',', $allTagsString);
@@ -110,6 +110,8 @@
                         </div>
                     </div>
                 @endif
+
+
           </div>
       </div>
   </div>
