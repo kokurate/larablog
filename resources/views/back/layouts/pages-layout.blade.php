@@ -34,6 +34,8 @@
     {{-- <link rel="stylesheet" href="{{ asset('back/dist/libs/ijaboCropTool/ijaboCropTool.min.css') }}"> --}}
     <link rel="stylesheet" href="/back/dist/libs/ijaboCropTool/ijaboCropTool.min.css">
 
+    <!-- Font Awesome 4.7 -->
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
     @stack('stylesheets')
     @livewireStyles
     <link href="/back/dist/css/demo.min.css?1684106062" rel="stylesheet"/>
