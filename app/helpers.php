@@ -5,6 +5,9 @@ use App\Models\SubCategory;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 if(!function_exists('blogInfo')){
     function blogInfo(){
         return Setting::find(1);
@@ -121,5 +124,17 @@ if(!function_exists('latest_sidebar_posts')){
                     ->get();
     }
 }
+
+
+/**
+ * Function that will help us to send email using php mailer library
+ * => sendMail($mailConfig);
+ */
+
+ if(!function_exists('sendMail')){
+    function sendMail($mailconfig){
+        
+    }
+ }
 
 ?>
