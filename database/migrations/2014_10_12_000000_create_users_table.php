@@ -22,9 +22,9 @@ return new class extends Migration
             $table->string('username')->nullable();
             $table->string('picture')->nullable();
             $table->text('biography')->nullable();
-            $table->integer('type')->default();
-
-            $table->rememberToken();
+            $table->integer('type')->default(2);
+            $table->integer('blocked')->default(0);
+            $table->integer('direct_publish')->default(0);
             $table->timestamps();
         });
     }
